@@ -1,5 +1,4 @@
 <app-base-auth (onClick)="register($event)" [form]="authForm" [isRegister]="true">
-
   <ng-template #error>
     <p class="alert alert-danger" *ngIf="errMessage">{{errMessage}}</p>
   </ng-template>
@@ -8,7 +7,7 @@
   </ng-template>
   <ng-template #otherNotes>
     <p>
-      Do you have an account? <button class="btn btn-link">login Instead</button>
+      Do you have an account? <a class="btn btn-link" [routerLink]="['/auth/login']" >login Instead</a>
     </p>
   </ng-template>
 </app-base-auth>
