@@ -4,20 +4,17 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpHeaders,
-  HttpErrorResponse,
-  HttpResponse,
 } from '@angular/common/http';
-import { map, Observable, tap } from 'rxjs';
+import {  Observable, tap } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { AppModalService } from '../shared/modal-message-component/app-modal.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authServ: AuthService,private router:Router,private modalService: BsModalService) {}
+  constructor(private authServ: AuthService,private router:Router,private appModal:AppModalService) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -32,10 +29,10 @@ export class AuthInterceptor implements HttpInterceptor {
       });
       return next.handle(newRequest).pipe(
         tap({
-          error: (err) => {
+          error: async (err) => {
             if(err.error.message=='Unauthenticated.'){
-              this.modalService.show('Session TimeOut Please LogIn Again');
-              // this.authServ.logOut();
+              await this.appModal.openModal('Session Time Out','Please Login Again');
+              this.authServ.logOut();
             }
           },
         })
