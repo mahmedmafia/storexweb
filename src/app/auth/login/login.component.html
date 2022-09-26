@@ -1,0 +1,13 @@
+<app-base-auth (onClick)="login($event)" [form]="authForm">
+  <ng-template #error>
+    <p class="alert alert-danger" *ngIf="errMessage">{{errMessage}}</p>
+  </ng-template>
+  <ng-template #clickBtn>
+    Login
+  </ng-template>
+  <ng-template #otherNotes>
+    <p>
+      Don't have an account? <button class="btn btn-link">signup Instead</button>
+    </p>
+  </ng-template>
+</app-base-auth>

@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-between mt-5">
+  <h1>Book Section </h1>
+  <div> <a class="btn btn-primary" [routerLink]="['new']">Add New Book</a>
+
+  </div>
+
+</div>
+<div class="row">
+<div class="col-6 form-group mt-4">
+  <label for="searhMovie" class="mb-3">Search Movie</label>
+  <input type="text" name="searhMovie" class="form-control" [(ngModel)]="searchName" placeholder="Serach for a movie">
+</div>
+<div class="col-6 form-group mt-4">
+  <label for="searhMovie" class="mb-3">Filter By Category</label>
+  <select class="form-control" (change)="onFilterCategroy(select.value)" #select>
+    <option  selcted value="">No Filter</option>
+    <option *ngFor="let category of categories" [value]="category.name"> {{category.name}}</option>
+  </select>
+</div>
+</div>
+<div class="row mt-5">
+  <div *ngFor="let movie of movies  | SearchItem:searchName:'name' | SearchItem:categoryName:'category'" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 ">
+    <div class="card" *ngIf="movie">
+      <div class="img-container" style="width:100%;height:100px;">
+        <img [src]="movie.image" class="card-img-top image-responsive" style="height:100% ;">
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{movie.name}}</h5>
+        <h6 class="text-info ">category:{{movie.category}}</h6>
+        <p class="card-text">{{movie.description}}
+        </p>
+        <div class="d-flex justify-content-around">
+          <a class="btn btn-primary" [routerLink]="['update/'+movie.id]" >update</a>
+          <button class="btn btn-danger" (click)="deleteMovie(movie)">delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Confirm</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Are you shure you want to delete <b>{{selectedMovie.name }}</b>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modalRef.hide()">No</button>
+    <button type="button" class="btn btn-danger" (click)="confirmDelete()">yes</button>
+  </div>
+</ng-template>

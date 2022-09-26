@@ -3,6 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  testAPi:'https://test-api.storexweb.com/api',
+  testUrl:'https://test-api.storexweb.com',
   production: false
 };
 

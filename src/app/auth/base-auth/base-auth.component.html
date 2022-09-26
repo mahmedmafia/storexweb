@@ -1,0 +1,43 @@
+<ng-container [ngTemplateOutlet]="_errTemplate"></ng-container>
+<ng-container [ngTemplateOutlet]="_HelloTemplate"></ng-container>
+
+<form *ngIf="form" [formGroup]="form" (ngSubmit)="submitClicked($event)">
+  <div class="form-group mb-3" *ngIf="nameControl">
+    <label for="name">name</label>
+    <input type="text" class="form-control" formControlName="name">
+    <div class="text-danger" *ngIf="nameControl.dirty && !nameControl.valid">
+      <span *ngIf="nameControl.errors!['required']">name is required</span>
+      <span *ngIf="nameControl.errors!['minlength']">min length is
+        {{nameControl.errors!['minlength'].requiredLength}}</span>
+    </div>
+  </div>
+  <div class="form-group mb-3">
+    <label for="email" class="mb-2">email</label>
+    <input type="email" formControlName="email" class="form-control" />
+    <div class="text-danger" *ngIf="
+    emailControl.dirty && !emailControl.valid
+    ">
+      <span *ngIf="emailControl.errors!['required']">email is required</span>
+      <span *ngIf="emailControl.errors!['email']">Invalid Email Format</span>
+
+    </div>
+  </div>
+  <div class="form-group mb-3">
+    <label for="password" class="mb-2">password</label>
+    <input type="password" class="form-control" formControlName="password" />
+    <div class="text-danger" *ngIf="
+      passwordControl.dirty && !passwordControl.valid
+      ">
+      <span *ngIf="passwordControl.errors!['required']">password is required</span>
+      <span *ngIf="passwordControl.errors!['minlength']">min length is
+        {{passwordControl.errors!['minlength'].requiredLength}}</span>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary btn-lg mb-2" [disabled]="!form.valid">
+    <ng-container [ngTemplateOutlet]="_clickBtn"></ng-container>
+
+  </button>
+  <ng-container [ngTemplateOutlet]="_otherNotes"></ng-container>
+
+</form>

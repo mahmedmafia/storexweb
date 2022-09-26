@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row">
+    <h1 class="text-center">{{isUpdate? 'Update' :'Add a New '}} Movie</h1>
+    <div class="col-md-12">
+      <div style="width:60%" class="my-5 mx-auto">
+        <form *ngIf="movieForm" [formGroup]="movieForm" (ngSubmit)="ModifyMovie($event)">
+          <div class="form-group mb-3">
+            <label>Movie Name</label>
+            <input type="text" formControlName="name" class="form-control">
+          </div>
+          <div class="form-group mb-3">
+            <label>Category</label>
+            <select class="form-control" formControlName="category">
+              <option  selected value="">Select Category</option>
+
+              <option *ngFor="let category of categories" [value]="category.id">{{category.name}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Movie Image</label>
+            <input type="file" formControlName="image" class="form-control" (change)="selectImage($event)">
+            <div class="card mt-2" style="height:100px ;" *ngIf="isUpdate && movie">
+              <img [src]="movie.image" class="card-img-top image-responsive" style="height:100% ;">
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>description</label>
+            <textarea type="text" formControlName="description" class="form-control"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block " [disabled]="!movieForm.valid">Add Book</button>
+        </form>
+        <a [routerLink]="['/home']" class="btn btn-danger btn-block mt-3">Go Back</a>
+      </div>
+    </div>
+  </div>
+
+</div>
