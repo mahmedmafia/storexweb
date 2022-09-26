@@ -16,6 +16,8 @@ export class MoviesComponent implements OnInit {
   modalRef!: BsModalRef;
   selectedMovie!: Movie;
   categories:Category[]=[];
+  keys=['name','category'];
+  values=['sad','hello'];
   @ViewChild('template', { static: false }) tmplate!: TemplateRef<any>;
   constructor(private moviesServ: MoviesService, private modalService: BsModalService) { }
 

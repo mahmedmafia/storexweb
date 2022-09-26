@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
@@ -8,7 +9,7 @@ import { AuthService } from './auth.service';
 })
 export class AuthGuardGuard implements CanActivate, CanActivateChild {
 
-  constructor(private authServ: AuthService, private router: Router) {
+  constructor(private authServ: AuthService, private router: Router,private modalService:BsModalService) {
 
   }
   canActivate(
@@ -25,6 +26,7 @@ export class AuthGuardGuard implements CanActivate, CanActivateChild {
     if (this.authServ.user?.token) {
       return true;
     } else {
+      this.modalService.show('Session TimeOut Please LogIn Again',{show:true});
       this.router.navigate(['/auth'])
       return false;
     }

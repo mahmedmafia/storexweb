@@ -8,17 +8,42 @@ import { Movie } from './movies.service';
 })
 export class SearchItemPipe implements PipeTransform {
 
-  transform<T extends Movie>(items: T[]| null, searchText: string, searchTerm: string): T[]  {
+  transform<T extends Movie>(items: T[] | null, searchTexts: string[], searchTerms: string[]): T[] {
     if (!items) return []
-    if (!searchText || searchText == '') return items;
-    return this.searchItems(items, searchText.toLowerCase(), searchTerm);
+    let validSearchTexts = 0;
+    let iteratedNum = searchTexts.length - 1;
+    let searchKeys = [...searchTerms];
+    let searchValues = [...searchTexts];
+    while (iteratedNum >= 0) {
+      if (searchValues[iteratedNum].trim() !== '') {
+        validSearchTexts++;
+      } else {
+        searchValues.splice(iteratedNum, 1);
+        searchKeys.splice(iteratedNum, 1);
+      }
+      iteratedNum--;
+    }
+
+    if (searchValues.length == 0) {
+      return items;
+    }
+
+    return this.searchItems(items, searchValues, searchKeys);
   }
-  private searchItems(items: any[], searchText: string, searchTerm: string): any[] {
+  private searchItems(items: any[], searchValues: string[], searchKeys: string[]): any[] {
     let results: any[] = [];
     items.forEach(item => {
-      if (item[searchTerm].toLowerCase().includes(searchText)) {
+      let matchValues = 0;
+      for (let i = 0; i < searchValues.length; i++) {
+        if (item[searchKeys[i]].toLowerCase().includes(searchValues[i].toLowerCase())) {
+          matchValues++;
+        }
+
+      }
+      if (matchValues == searchValues.length) {
         results.push(item);
       }
+
     });
     return results;
   }
